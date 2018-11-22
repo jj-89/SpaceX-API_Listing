@@ -11,8 +11,8 @@
             <h2>Lorem ipsum dolor sit amet...</h2>
             <p>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-            galley of type and scrambled it to make a type specimen book.
+                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                galley of type and scrambled it to make a type specimen book.
             </p>
 
             <p>
@@ -24,8 +24,8 @@
             <h2>&nbsp;</h2>
             <p>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-            galley of type and scrambled it to make a type specimen book.
+                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                galley of type and scrambled it to make a type specimen book.
             </p>
             <p>
                 <button class="textButton">Button</button>
@@ -36,8 +36,8 @@
             <h2>&nbsp;</h2>
             <p>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-            galley of type and scrambled it to make a type specimen book.
+                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                galley of type and scrambled it to make a type specimen book.
             </p>
 
             <p>
@@ -50,23 +50,27 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-18 col-md-12">
-			<div id="grid"></div>
-		</div>
+            <div id="grid"></div>
+            <div id="details"></div>
+        </div>
     </div>
 </div>
 <script>
+    var wnd,
+        detailsTemplate;
+
     $(document).ready(function () {
-        
-	        
+
+
         $(".textButton").kendoButton();
-        
+
         $("#grid").kendoGrid({
-            dataSource:{
-                type: "jsonp",
+            dataSource: {
+                //type: "jsonp",
                 transport: {
-                    read:"https://api.spacexdata.com/v3/launches"
+                    read: "https://api.spacexdata.com/v3/launches"
                 },
-                pageSize: 10,
+                pageSize: 10
 
             },
             pageable: true,
@@ -81,9 +85,68 @@
                 { field: "rocket.rocket_name", title: "Rocket Name" },
                 { field: "launch_date_local", title: "Launch Date", format: "{0:MM/dd/yyyy}" },
                 { field: "launch_success", title: "Success" },
-                { field: "second_stage", title: "Cargo Manifest"}
+                { command: { text: "View Details", click: showDetails }, title: "Cargo Manifest", width: "180px" }
             ],
+            //detailTemplate: "<div>Name: #: rocket.second_stage.payloads.customers #</div>"
+        }).data("kendoGrid");
 
-        });
+        wnd = $("#details")
+            .kendoWindow({
+                title: "Cargo Manifest",
+                modal: true,
+                visible: false,
+                resizable: false,
+                width: 300
+            }).data("kendoWindow");
+
+        detailsTemplate = kendo.template($("#template").html());
     });
+    function showDetails(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        wnd.content(detailsTemplate(dataItem));
+        wnd.center().open();
+    }
 </script>
+<script type="text/x-kendo-template" id="template">
+    <div id="details-container">
+        <h2>Cargo Manifest</h2>
+        <br />
+        <br />
+        <dl>
+            <dt>Payload ID: #= rocket.second_stage.payloads[0].payload_id #</dt>
+            <br />
+            <dt>Nationality: #= rocket.second_stage.payloads[0].nationality #</dt>
+            <br />
+            <dt>Manufacturer: #= rocket.second_stage.payloads[0].manufacturer #</dt>
+            <br />
+            <dt>Payload Type: #= rocket.second_stage.payloads[0].payload_type #
+            <dt><br />
+            <dt>Payload Mass (kg): #= rocket.second_stage.payloads[0].payload_mass_kg #
+            <dt><br />
+            <dt>Payload Mass (lbs): #= rocket.second_stage.payloads[0].payload_mass_lbs #
+            <dt><br />
+        </dl>
+
+    </div>
+</script>
+
+<style type="text/css">
+    #details-container {
+        padding: 10px;
+    }
+
+        #details-container h2 {
+            margin: 0;
+        }
+
+        #details-container em {
+            color: #8c8c8c;
+        }
+
+        #details-container dt {
+            margin: 0;
+            display: inline;
+        }
+</style>
