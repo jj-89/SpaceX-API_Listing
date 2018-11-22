@@ -55,50 +55,35 @@
     </div>
 </div>
 <script>
-	$(document).ready(function() {
+    $(document).ready(function () {
+        
 	        
         $(".textButton").kendoButton();
         
         $("#grid").kendoGrid({
-            dataSource: {
-                type: "odata",
+            dataSource:{
+                type: "jsonp",
                 transport: {
-                    read: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Orders"
+                    read:"https://api.spacexdata.com/v3/launches"
                 },
-                schema: {
-                    model: {
-                        fields: {
-                            OrderID: { type: "number" },
-                            Freight: { type: "number" },
-                            ShipName: { type: "string" },
-                            OrderDate: { type: "date" },
-                            ShipCity: { type: "string" }
-                        }
-                    }
-                },
-                pageSize: 20
+                pageSize: 10,
+
             },
+            pageable: true,
             height: 550,
             filterable: true,
             sortable: true,
             pageable: true,
-            columns: [{
-                    field:"OrderID",
-                    filterable: false
-                },
-                "Freight",
-                {
-                    field: "OrderDate",
-                    title: "Order Date",
-                    format: "{0:MM/dd/yyyy}"
-                }, {
-                    field: "ShipName",
-                    title: "Ship Name"
-                }, {
-                    field: "ShipCity",
-                    title: "Ship City"
-                }
-            ]
+            columnMenu: true,
+            columns: [
+                { field: "flight_number", title: "Flight Number" },
+                { field: "mission_name", title: "Mission Name" },
+                { field: "rocket.rocket_name", title: "Rocket Name" },
+                { field: "launch_date_local", title: "Launch Date", format: "{0:MM/dd/yyyy}" },
+                { field: "launch_success", title: "Success" },
+                { field: "second_stage", title: "Cargo Manifest"}
+            ],
+
         });
     });
 </script>
