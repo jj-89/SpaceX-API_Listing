@@ -16,11 +16,11 @@ same method ( #= rockets.second_stage.payloads.payload_id #) it would return 'un
 needed inside of the object (#= rockets.second_stage.payloads[0].norad_id[0] #). That completed the project as far as pulling data from the
 API and displaying it goes. To host the project I used Microsoft Azures free trial and published the website there. 
 
-// PLANS FOR THE FUTURE
-Cache data from the API to limit the number of calls to it. 
-Implement logic that will check the cached data for the latest launch and update the DB if it is not current.
-Create pages that will have general information on SpaceX, and Elons other companies (Boring, Tesla, ect...)
-Create different pages for past launches and future launches.
-Implement some logic that will remove the fields for 'NORAD ID' and both 'Payload Mass' fields if they hold no information. 
-Play with KendoUI's custom template builder to add some flavor to the page
-Implement media queries to create a more optimized view for mobile devices. 
+// PLANS FOR THE FUTURE<br>
+Cache data from the API to limit the number of calls to it. <br>
+Implement logic that will check the cached data for the latest launch and update the DB if it is not current. <br>
+Create pages that will have general information on SpaceX, and Elons other companies (Boring, Tesla, ect...) <br>
+Create different pages for past launches and future launches.<br>
+Implement some logic that will remove the fields for 'NORAD ID' and both 'Payload Mass' fields if they hold no information. <br>
+Play with KendoUI's custom template builder to add some flavor to the page. <br>
+Implement media queries to create a more optimized view for mobile devices. <br>
